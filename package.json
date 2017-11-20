@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "material-ui": "^1.0.0-beta.21",
+    "nprogress": "^0.2.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
@@ -11,7 +12,9 @@
     "react-router-redux": "^5.0.0-alpha.8",
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-nprogress": "^1.0.2",
+    "redux-thunk": "^2.2.0",
+    "typeface-roboto": "^0.0.45"
   },
   "scripts": {
     "start": "react-scripts start",
