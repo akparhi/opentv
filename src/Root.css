@@ -1,10 +1,1 @@
-/* nProgress */
-#nprogress .bar {
-  background: #2196f3 !important;
-  z-index: 9951 !important;
-  height: 3px !important;
-}
 
-#nprogress .peg {
-  box-shadow: 0 0 10px #2095f3, 0 0 5px #2196f3 !important;
-}
