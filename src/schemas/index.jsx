@@ -8,28 +8,27 @@
 
 import { schema } from 'normalizr';
 
-const userSchema = new schema.Entity(
-  'users',
-  {},
-  {
-    idAttribute: user => user.login.toLowerCase()
-  }
-);
+const person = new schema.Entity('persons');
+const genre = new schema.Entity('genres');
+const network = new schema.Entity('networks');
+const company = new schema.Entity('companies');
+const season = new schema.Entity('seasons');
 
-const repoSchema = new schema.Entity(
-  'repos',
-  {
-    owner: userSchema
-  },
-  {
-    idAttribute: repo => repo.fullName.toLowerCase()
-  }
-);
+const tvShowSchema = new schema.Entity('tvShows', {
+  genre_ids: [genre],
+  created_by: [person],
+  genres: [genre],
+  networks: [network],
+  production_companies: [company],
+  seasons: [season]
+});
 
-// Schemas for Github API responses.
-export const Schemas = {
-  USER: userSchema,
-  USER_ARRAY: [userSchema],
-  REPO: repoSchema,
-  REPO_ARRAY: [repoSchema]
+const tvShowsSchema = { results: [tvShowSchema] };
+
+// Schemas for API responses.
+const Schemas = {
+  TV_SHOW: tvShowSchema,
+  TV_SHOWS_SEARCH: tvShowsSchema
 };
+
+export default Schemas;
