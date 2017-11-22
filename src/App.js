@@ -2,6 +2,7 @@ import React from 'react';
 import compose from 'recompose/compose';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { denormalize } from 'normalizr';
 
 import Autosuggest from 'react-autosuggest';
 import TextField from 'material-ui/TextField';
@@ -11,44 +12,8 @@ import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import { withStyles } from 'material-ui/styles';
 
+import Schema from './schemas';
 import { searchTV } from './actions/search';
-
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' }
-];
 
 function renderInput(inputProps) {
   const { classes, autoFocus, value, ref, ...other } = inputProps;
@@ -70,8 +35,8 @@ function renderInput(inputProps) {
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.label, query);
-  const parts = parse(suggestion.label, matches);
+  const matches = match(suggestion.original_name, query);
+  const parts = parse(suggestion.original_name, matches);
 
   return (
     <MenuItem selected={isHighlighted} component="div">
@@ -103,27 +68,7 @@ function renderSuggestionsContainer(options) {
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.label;
-}
-
-function getSuggestions(value) {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep =
-          count < 5 &&
-          suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
-
-        if (keep) {
-          count += 1;
-        }
-
-        return keep;
-      });
+  return suggestion.original_name;
 }
 
 const styles = theme => ({
@@ -158,15 +103,14 @@ class IntegrationAutosuggest extends React.Component {
     suggestions: []
   };
 
-  componentWillMount() {
-    this.props.searchTV('house');
-  }
+  getSuggestions = value =>
+    this.props
+      .searchTV(value)
+      .then(res =>
+        this.setState({ suggestions: this.props.suggestions.results })
+      );
 
-  handleSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value)
-    });
-  };
+  handleSuggestionsFetchRequested = ({ value }) => this.getSuggestions(value);
 
   handleSuggestionsClearRequested = () => {
     this.setState({
@@ -210,10 +154,13 @@ class IntegrationAutosuggest extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  console.log(state);
-  return { ...state };
-};
+const mapStateToProps = state => ({
+  suggestions: denormalize(
+    { results: state.tvShows },
+    Schema.TV_SHOWS_SEARCH,
+    state.entities
+  )
+});
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(

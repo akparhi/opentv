@@ -13,17 +13,18 @@ const genre = new schema.Entity('genres');
 const network = new schema.Entity('networks');
 const company = new schema.Entity('companies');
 const season = new schema.Entity('seasons');
-
-const tvShowSchema = new schema.Entity('tvShows', {
+const tvShowSchema = {
   genre_ids: [genre],
   created_by: [person],
   genres: [genre],
   networks: [network],
   production_companies: [company],
   seasons: [season]
-});
+};
 
-const tvShowsSchema = { results: [tvShowSchema] };
+const tvShow = new schema.Entity('tvShows');
+
+const tvShowsSchema = { results: [tvShow] };
 
 // Schemas for API responses.
 const Schemas = {

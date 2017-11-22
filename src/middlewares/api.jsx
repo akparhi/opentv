@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
 
-const API_ROOT = 'https://api.themoviedb.org/3';
+const API_ROOT = 'http://api.themoviedb.org/3';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
@@ -9,11 +9,7 @@ const callApi = (schema, endpoint, method, payload, auth) => {
     endpoint.indexOf(API_ROOT) === -1 ? API_ROOT + endpoint : endpoint;
 
   const options = {
-    method,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
+    method
   };
 
   if (payload) options.body = JSON.stringify(payload);
@@ -21,18 +17,16 @@ const callApi = (schema, endpoint, method, payload, auth) => {
   if (auth) options.credentials = 'include';
 
   return fetch(fullUrl, options).then(response =>
-    response.json().then(json => Object.assign({}, normalize(json, schema)))
+    response.json().then(json => ({ ...normalize(json, schema) }))
   );
 };
 
 // Action key that carries API call info interpreted by this Redux middleware.
-export const CALL_API = 'Call API';
+export const CALL_API = 'CALL_API';
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
 export default store => next => action => {
-  console.log('1');
-
   const callAPI = action[CALL_API];
   if (typeof callAPI === 'undefined') {
     return next(action);
@@ -58,7 +52,7 @@ export default store => next => action => {
   }
 
   const actionWith = data => {
-    const finalAction = Object.assign({}, action, data);
+    const finalAction = { ...action, ...data };
     delete finalAction[CALL_API];
     return finalAction;
   };

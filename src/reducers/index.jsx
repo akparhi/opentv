@@ -1,19 +1,36 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { RESET_STORE } from 'constants';
+import * as ActionTypes from '../constants';
+import { RESET_STORE } from '../constants';
 
 //reducers
 // Updates an entity cache in response to any action with response.entities.
-const entities = (state = {}, action) => {
+const entities = (
+  state = {
+    tvShows: {}
+  },
+  action
+) => {
   if (action.response && action.response.entities)
     return { ...state, ...action.response.entities };
 
   return state;
 };
 
+const tvShows = (state = [], action) => {
+  if (action.type === ActionTypes.SEARCH_TV_SUCCESS) {
+    console.log(action.response);
+    const newState = [...action.response.result.results];
+    return newState;
+  }
+
+  return state;
+};
+
 const appReducer = combineReducers({
   routing: routerReducer,
-  entities
+  entities,
+  tvShows
 });
 
 const rootReducer = (state, action) => {
