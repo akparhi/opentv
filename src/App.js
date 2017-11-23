@@ -15,62 +15,6 @@ import { withStyles } from 'material-ui/styles';
 import Schema from './schemas';
 import { searchTV } from './actions/search';
 
-function renderInput(inputProps) {
-  const { classes, autoFocus, value, ref, ...other } = inputProps;
-
-  return (
-    <TextField
-      autoFocus={autoFocus}
-      className={classes.textField}
-      value={value}
-      inputRef={ref}
-      InputProps={{
-        classes: {
-          input: classes.input
-        },
-        ...other
-      }}
-    />
-  );
-}
-
-function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.original_name, query);
-  const parts = parse(suggestion.original_name, matches);
-
-  return (
-    <MenuItem selected={isHighlighted} component="div">
-      <div>
-        {parts.map((part, index) => {
-          return part.highlight ? (
-            <span key={index} style={{ fontWeight: 300 }}>
-              {part.text}
-            </span>
-          ) : (
-            <strong key={index} style={{ fontWeight: 500 }}>
-              {part.text}
-            </strong>
-          );
-        })}
-      </div>
-    </MenuItem>
-  );
-}
-
-function renderSuggestionsContainer(options) {
-  const { containerProps, children } = options;
-
-  return (
-    <Paper {...containerProps} square>
-      {children}
-    </Paper>
-  );
-}
-
-function getSuggestionValue(suggestion) {
-  return suggestion.original_name;
-}
-
 const styles = theme => ({
   container: {
     flexGrow: 1,
@@ -103,12 +47,66 @@ class IntegrationAutosuggest extends React.Component {
     suggestions: []
   };
 
+  renderInput = inputProps => {
+    const { classes, autoFocus, value, ref, ...other } = inputProps;
+
+    return (
+      <TextField
+        autoFocus={autoFocus}
+        className={classes.textField}
+        value={value}
+        inputRef={ref}
+        InputProps={{
+          classes: {
+            input: classes.input
+          },
+          ...other
+        }}
+      />
+    );
+  };
+
+  renderSuggestion = (suggestion, { query, isHighlighted }) => {
+    const matches = match(suggestion.original_name, query);
+    const parts = parse(suggestion.original_name, matches);
+
+    return (
+      <MenuItem selected={isHighlighted} component="div">
+        <div>
+          {parts.map((part, index) => {
+            return part.highlight ? (
+              <span key={index} style={{ fontWeight: 300 }}>
+                {part.text}
+              </span>
+            ) : (
+              <strong key={index} style={{ fontWeight: 500 }}>
+                {part.text}
+              </strong>
+            );
+          })}
+        </div>
+      </MenuItem>
+    );
+  };
+
+  renderSuggestionsContainer = options => {
+    const { containerProps, children } = options;
+
+    return (
+      <Paper {...containerProps} square>
+        {children}
+      </Paper>
+    );
+  };
+
   getSuggestions = value =>
     this.props
       .searchTV(value)
       .then(res =>
         this.setState({ suggestions: this.props.suggestions.results })
       );
+
+  getSuggestionValue = suggestion => suggestion.original_name;
 
   handleSuggestionsFetchRequested = ({ value }) => this.getSuggestions(value);
 
@@ -135,13 +133,13 @@ class IntegrationAutosuggest extends React.Component {
           suggestionsList: classes.suggestionsList,
           suggestion: classes.suggestion
         }}
-        renderInputComponent={renderInput}
+        renderInputComponent={this.renderInput}
         suggestions={this.state.suggestions}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
-        renderSuggestionsContainer={renderSuggestionsContainer}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
+        renderSuggestionsContainer={this.renderSuggestionsContainer}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderSuggestion}
         inputProps={{
           autoFocus: true,
           classes,
