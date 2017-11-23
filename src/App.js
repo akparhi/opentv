@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 
 import Autosuggest from 'react-autosuggest';
-import TextField from 'material-ui/TextField';
+import Input from 'material-ui/Input';
 import Paper from 'material-ui/Paper';
-import { MenuItem } from 'material-ui/Menu';
+import MenuItem from 'material-ui/Menu/MenuItem';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
-import { withStyles } from 'material-ui/styles';
+import withStyles from 'material-ui/styles/withStyles';
 
 import Schema from './schemas';
 import { searchTV } from './actions/search';
@@ -36,7 +36,7 @@ const styles = theme => ({
     padding: 0,
     listStyleType: 'none'
   },
-  textField: {
+  input: {
     width: '100%'
   }
 });
@@ -51,17 +51,12 @@ class IntegrationAutosuggest extends React.Component {
     const { classes, autoFocus, value, ref, ...other } = inputProps;
 
     return (
-      <TextField
+      <Input
         autoFocus={autoFocus}
-        className={classes.textField}
+        className={classes.input}
         value={value}
         inputRef={ref}
-        InputProps={{
-          classes: {
-            input: classes.input
-          },
-          ...other
-        }}
+        {...other}
       />
     );
   };

@@ -18,11 +18,8 @@ const entities = (
 };
 
 const tvShows = (state = [], action) => {
-  if (action.type === ActionTypes.SEARCH_TV_SUCCESS) {
-    console.log(action.response);
-    const newState = [...action.response.result.results];
-    return newState;
-  }
+  if (action.type === ActionTypes.SEARCH_TV_SUCCESS)
+    return [...action.response.result.results];
 
   return state;
 };
