@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import store, { history } from './store';
@@ -12,27 +12,20 @@ import App from './App';
 import './Root.css';
 
 const theme = createMuiTheme({
-  overrides: {
-    MuiToolbar: {
-      root: {
-        minHeight: '56px !important'
-      }
-    }
-  }
+  palette: {
+    type: 'dark'
+  },
+  overrides: {}
 });
 
-class Root extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <MuiThemeProvider theme={theme}>
-            <App />
-          </MuiThemeProvider>
-        </ConnectedRouter>
-      </Provider>
-    );
-  }
-}
+const Root = props => (
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
+    </ConnectedRouter>
+  </Provider>
+);
 
 export default Root;

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+
 import * as ActionTypes from '../constants';
 import { RESET_STORE } from '../constants';
 
