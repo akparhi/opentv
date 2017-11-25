@@ -1,6 +1,6 @@
 import { normalize } from 'normalizr';
 
-const API_ROOT = 'http://api.themoviedb.org/3';
+const API_ROOT = 'https://api.themoviedb.org/3';
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
