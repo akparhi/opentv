@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
@@ -22,26 +21,24 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit
   },
-  children: theme.mixins.gutters({
+  children: {
     width: '100%',
-    paddingTop: theme.spacing.unit * 3
-  })
+    padding: theme.spacing.unit * 5
+  }
 });
 
 const Frame = ({ children, classes }) => (
   <div className={classes.root}>
-    <AppBar position="static" color="default">
-      <Toolbar className={classes.toolbar}>
-        <Typography type="title" color="inherit" className={classes.brandTitle}>
-          OMDB
-        </Typography>
-        <Search />
+    <Toolbar className={classes.toolbar}>
+      <Typography type="title" color="inherit" className={classes.brandTitle}>
+        OMDB
+      </Typography>
+      <Search />
 
-        <Button color="inherit" className={classes.button}>
-          Sign In
-        </Button>
-      </Toolbar>
-    </AppBar>
+      <Button color="inherit" className={classes.button}>
+        Sign In
+      </Button>
+    </Toolbar>
 
     <div className={classes.children}>{children}</div>
   </div>

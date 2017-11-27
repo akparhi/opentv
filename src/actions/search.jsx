@@ -11,9 +11,9 @@ import Schemas from '../schemas';
 const fetchTVSearch = query => ({
   [CALL_API]: {
     types: [SEARCH_TV_REQUEST, SEARCH_TV_SUCCESS, SEARCH_TV_FAILURE],
-    endpoint: `/search/tv/?api_key=${
-      process.env.REACT_APP_TMDB_API_KEY
-    }&query=${query}`,
+    endpoint: `/search/tv?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${
+      query
+    }`,
     schema: Schemas.TV_SHOWS_SEARCH
   }
 });

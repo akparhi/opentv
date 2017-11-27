@@ -1,5 +1,5 @@
 import React from 'react';
-import compose from 'recompose/compose';
+import { compose } from 'redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
