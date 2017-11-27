@@ -14,11 +14,10 @@ const IMG_PATH = 'https://image.tmdb.org/t/p/';
 
 const styles = theme => ({
   root: {
-    height: 'auto',
-    whiteSpace: 'normal'
+    height: 'auto'
   },
   cover: {
-    width: 92,
+    minWidth: 92,
     height: 138
   },
   content: {
@@ -28,12 +27,11 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 2
   },
   description: {
-    flexWrap: 'wrap'
+    whiteSpace: 'normal'
   }
 });
 
 const Suggestion = ({ classes, suggestion, query, isHighlighted }) => {
-  console.log(suggestion);
   const matches = match(suggestion.original_name, query);
   const parts = parse(suggestion.original_name, matches);
 
@@ -64,12 +62,8 @@ const Suggestion = ({ classes, suggestion, query, isHighlighted }) => {
         <Typography type="subheading" color="secondary">
           Mac Miller
         </Typography>
-        <Typography
-          type="paragraph"
-          color="secondary"
-          className={classes.description}
-        >
-          {suggestion.overview.substr(0, 180)}
+        <Typography paragraph color="secondary" className={classes.description}>
+          {suggestion.overview.substr(0, 300)}
         </Typography>
       </div>
     </MenuItem>

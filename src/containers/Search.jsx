@@ -1,6 +1,5 @@
 import React from 'react';
 import { compose } from 'redux';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { denormalize } from 'normalizr';
 
@@ -12,6 +11,7 @@ import Schema from '../schemas';
 import { searchTV } from '../actions/search';
 import SearchBox from '../components/Search/SearchBox';
 import Suggestion from '../components/Search/Suggestion';
+import { debounce } from '../utils';
 
 const styles = theme => ({
   container: {
@@ -58,12 +58,18 @@ class IntegrationAutosuggest extends React.Component {
     </Paper>
   );
 
-  getSuggestions = value =>
-    this.props.searchTV(value).then(() =>
-      this.setState({
-        suggestions: this.props.suggestions.results.slice(0, 5)
-      })
-    );
+  debounceSearch = debounce(
+    value =>
+      this.props.searchTV(value).then(() =>
+        this.setState({
+          suggestions: this.props.suggestions.results.slice(0, 5),
+          loading: false
+        })
+      ),
+    700
+  );
+
+  getSuggestions = value => this.debounceSearch(value);
 
   getSuggestionValue = suggestion => suggestion.original_name;
 
@@ -118,15 +124,7 @@ const mapStateToProps = state => ({
   )
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      searchTV: query => searchTV(query)
-    },
-    dispatch
-  );
-
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, { searchTV })
 )(IntegrationAutosuggest);
