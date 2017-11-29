@@ -9,9 +9,14 @@ import Paper from 'material-ui/Paper';
 
 import Schema from '../schemas';
 import { searchTV } from '../actions/search';
-import SearchBox from '../components/Search/SearchBox';
-import Suggestion from '../components/Search/Suggestion';
 import { debounce } from '../utils';
+
+import asyncComponent from '../routes/AsyncComponent';
+import SearchBox from '../components/Search/SearchBox';
+
+const Suggestion = asyncComponent(() =>
+  import('../components/Search/Suggestion')
+);
 
 const styles = theme => ({
   container: {
@@ -66,7 +71,7 @@ class IntegrationAutosuggest extends React.Component {
           loading: false
         })
       ),
-    700
+    600
   );
 
   getSuggestions = value => this.debounceSearch(value);
@@ -75,17 +80,9 @@ class IntegrationAutosuggest extends React.Component {
 
   handleSuggestionsFetchRequested = ({ value }) => this.getSuggestions(value);
 
-  handleSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: []
-    });
-  };
+  handleSuggestionsClearRequested = () => this.setState({ suggestions: [] });
 
-  handleChange = (event, { newValue }) => {
-    this.setState({
-      value: newValue
-    });
-  };
+  handleChange = (event, { newValue }) => this.setState({ value: newValue });
 
   render() {
     const { classes } = this.props;

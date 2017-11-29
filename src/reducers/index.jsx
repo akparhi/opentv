@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 import * as ActionTypes from '../constants';
-import { RESET_STORE } from '../constants';
 
 //reducers
 // Updates an entity cache in response to any action with response.entities.
@@ -25,17 +24,10 @@ const tvShows = (state = [], action) => {
   return state;
 };
 
-const appReducer = combineReducers({
+const rootReducer = combineReducers({
   routing: routerReducer,
   entities,
   tvShows
 });
-
-const rootReducer = (state, action) => {
-  if (action.type === RESET_STORE) {
-    state = undefined;
-  }
-  return appReducer(state, action);
-};
 
 export default rootReducer;

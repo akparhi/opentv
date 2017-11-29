@@ -6,11 +6,10 @@ import parse from 'autosuggest-highlight/parse';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import MenuItem from 'material-ui/Menu/MenuItem';
-import { CardMedia } from 'material-ui/Card';
+import StarIcon from 'material-ui-icons/Star';
 
 import palette from '../../utils/palette';
-
-const IMG_PATH = 'https://image.tmdb.org/t/p/';
+import TMDBImg from '../utils/TMDBImg';
 
 const styles = theme => ({
   root: {
@@ -28,6 +27,12 @@ const styles = theme => ({
   },
   description: {
     whiteSpace: 'normal'
+  },
+  star: {
+    width: '1rem',
+    height: '1rem',
+    position: 'relative',
+    top: 2
   }
 });
 
@@ -37,10 +42,10 @@ const Suggestion = ({ classes, suggestion, query, isHighlighted }) => {
 
   return (
     <MenuItem selected={isHighlighted} component="div" className={classes.root}>
-      <CardMedia
+      <TMDBImg
         className={classes.cover}
-        image={`${IMG_PATH}w92${suggestion.poster_path}`}
-        title="Live from space album cover"
+        path="w92"
+        imgPath={suggestion.poster_path}
       />
       <div className={classes.content}>
         <Typography type="headline">
@@ -53,14 +58,20 @@ const Suggestion = ({ classes, suggestion, query, isHighlighted }) => {
                 {part.text}
               </span>
             ) : (
-              <strong key={index} style={{ fontWeight: 500 }}>
+              <span key={index} style={{ fontWeight: 500 }}>
                 {part.text}
-              </strong>
+              </span>
             );
-          })}
+          })}{' '}
+          <span style={{ fontWeight: 500 }}>
+            {suggestion.first_air_date
+              ? `(${suggestion.first_air_date.slice(0, 4)})`
+              : null}
+          </span>
         </Typography>
         <Typography type="subheading" color="secondary">
-          Mac Miller
+          <StarIcon className={classes.star} />{' '}
+          {(suggestion.vote_average || 0.0).toFixed(1)}
         </Typography>
         <Typography paragraph color="secondary" className={classes.description}>
           {suggestion.overview.substr(0, 300)}
