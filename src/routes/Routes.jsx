@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import withRouter from 'react-router-dom/withRouter';
 
 import Frame from './Frame';
 import asyncComponent from './AsyncComponent';

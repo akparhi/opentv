@@ -3,7 +3,7 @@ import React from 'react';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 
-import { withStyles } from 'material-ui/styles';
+import withStyles from 'material-ui/styles/withStyles';
 import Typography from 'material-ui/Typography';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import StarIcon from 'material-ui-icons/Star';
