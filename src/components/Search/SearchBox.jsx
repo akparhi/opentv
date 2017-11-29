@@ -41,12 +41,12 @@ const styles = theme => ({
   }
 });
 
-const SearchBox = ({ classes, ...rest }) => (
+const SearchBox = ({ classes, inputRef, ...rest }) => (
   <form className={classes.wrapper}>
     <div className={classes.search}>
       <SearchIcon />
     </div>
-    <input className={classes.input} {...rest} />
+    <input className={classes.input} ref={inputRef} {...rest} />
   </form>
 );
 

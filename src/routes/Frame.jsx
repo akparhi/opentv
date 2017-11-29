@@ -22,8 +22,7 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   children: {
-    width: '100%',
-    padding: theme.spacing.unit * 5
+    width: '100%'
   }
 });
 
@@ -31,7 +30,7 @@ const Frame = ({ children, classes }) => (
   <div className={classes.root}>
     <Toolbar className={classes.toolbar}>
       <Typography type="title" color="inherit" className={classes.brandTitle}>
-        OMDB
+        OMSE
       </Typography>
       <Search />
 

@@ -74,7 +74,7 @@ const Suggestion = ({ classes, suggestion, query, isHighlighted }) => {
           {(suggestion.vote_average || 0.0).toFixed(1)}
         </Typography>
         <Typography paragraph color="secondary" className={classes.description}>
-          {suggestion.overview.substr(0, 300)}
+          {suggestion.overview.substr(0, 110)}
         </Typography>
       </div>
     </MenuItem>

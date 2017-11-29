@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import withRouter from 'react-router-dom/withRouter';
 import { denormalize } from 'normalizr';
 
 import withStyles from 'material-ui/styles/withStyles';
@@ -47,7 +48,7 @@ class IntegrationAutosuggest extends React.Component {
     suggestions: []
   };
 
-  renderInput = inputProps => <SearchBox {...inputProps} />;
+  renderInput = ({ ref, ...rest }) => <SearchBox inputRef={ref} {...rest} />;
 
   renderSuggestion = (suggestion, { query, isHighlighted }) => (
     <Suggestion
@@ -82,7 +83,10 @@ class IntegrationAutosuggest extends React.Component {
 
   handleSuggestionsClearRequested = () => this.setState({ suggestions: [] });
 
-  handleChange = (event, { newValue }) => this.setState({ value: newValue });
+  handleSuggestionSelected = (e, { suggestion }) =>
+    this.props.history.push(`/show/${suggestion.id}`);
+
+  handleChange = (e, { newValue }) => this.setState({ value: newValue });
 
   render() {
     const { classes } = this.props;
@@ -102,6 +106,7 @@ class IntegrationAutosuggest extends React.Component {
         renderSuggestionsContainer={this.renderSuggestionsContainer}
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestion={this.renderSuggestion}
+        onSuggestionSelected={this.handleSuggestionSelected}
         inputProps={{
           autoFocus: true,
           placeholder: 'Search a TV Show',
@@ -123,5 +128,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, { searchTV })
+  connect(mapStateToProps, { searchTV }),
+  withRouter
 )(IntegrationAutosuggest);
