@@ -65,8 +65,8 @@ class IntegrationAutosuggest extends React.Component {
   );
 
   debounceSearch = debounce(
-    value =>
-      this.props.searchTV(value).then(() =>
+    query =>
+      this.props.searchTV(query).then(() =>
         this.setState({
           suggestions: this.props.suggestions.results.slice(0, 5),
           loading: false
@@ -75,7 +75,9 @@ class IntegrationAutosuggest extends React.Component {
     600
   );
 
-  getSuggestions = value => this.debounceSearch(value);
+  getSuggestions = value => {
+    if (value.trim()) return this.debounceSearch(value);
+  };
 
   getSuggestionValue = suggestion => suggestion.original_name;
 

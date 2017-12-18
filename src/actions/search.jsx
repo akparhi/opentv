@@ -18,8 +18,4 @@ const fetchTVSearch = query => ({
   }
 });
 
-export const searchTV = query => dispatch => {
-  if (!query) return null;
-
-  return dispatch(fetchTVSearch(query));
-};
+export const searchTV = query => dispatch => dispatch(fetchTVSearch(query));

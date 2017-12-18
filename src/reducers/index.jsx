@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 
 import * as ActionTypes from '../constants';
 
@@ -25,7 +24,6 @@ const tvShows = (state = [], action) => {
 };
 
 const rootReducer = combineReducers({
-  routing: routerReducer,
   entities,
   tvShows
 });

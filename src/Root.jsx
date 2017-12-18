@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import ConnectedRouter from 'react-router-redux/ConnectedRouter';
+import Router from 'react-router-dom/Router';
 import store, { history } from './store';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import createMuiTheme from 'material-ui/styles/createMuiTheme';
 import 'typeface-roboto';
 
-import App from './App';
+import Routes from './routes/Routes';
 
 import './Root.css';
 
@@ -20,11 +20,11 @@ const theme = createMuiTheme({
 
 const Root = props => (
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <MuiThemeProvider theme={theme}>
-        <App />
+        <Routes />
       </MuiThemeProvider>
-    </ConnectedRouter>
+    </Router>
   </Provider>
 );
 
