@@ -12,7 +12,7 @@ import Schema from '../schemas';
 import { searchTV } from '../actions/search';
 import { debounce } from '../utils';
 
-import asyncComponent from '../routes/AsyncComponent';
+import asyncComponent from '../utils/AsyncComponent';
 import SearchBox from '../components/Search/SearchBox';
 
 const Suggestion = asyncComponent(() =>
